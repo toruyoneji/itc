@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>日報アプリ</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}日報アプリ{% endblock %}
+
+{% block content %}
     <h1>こちらは日報のアプリのページになります</h1>
-</body>
-</html>
+    <p>ブロックタグです</p>
+    <a href={% url 'nippo-create' %}>フォームページへ</a>
+    <a href={% url 'nippo-detail' 14 %}>詳細ページへ</a>
+
+{% endblock %}

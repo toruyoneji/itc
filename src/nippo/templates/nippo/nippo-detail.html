@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ラッキーナンバー</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}ラッキーナンバー{% endblock %}
+
+{% block content %}
     <h1>今日のラッキーナンバーは->{{ random_number }}</h1>
-</body>
-</html>
+    <p>あなたの入力した数字は->{{ number }}</p>
+    <p>{{ random_number }} + {{ number }} = {{ random_number|add:number }}</p>
+    <p>blocktagです</p>
+
+{% endblock %}
