@@ -7,3 +7,8 @@ class NippoFormClass(forms.Form):
     #def __init__(self, *args, **kwargs):
        #self.base_fields['title'].initial = 'basefield'
        #super().__init__(*args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+         for field in self.base_fields.values():
+             field.widget.attrs.update({"class":"form-control"})
+         super().__init__(*args, **kwargs)
