@@ -3,7 +3,11 @@
 
 {% block content %}
     <h1>こちらは日報のアプリのページになります</h1>
-    <p>ブロックタグです</p>
+    <ul>
+        {% for obj in object_list%}
+        <li>{{ obj.title }}</li>
+        {% endfor %}
+    </ul>
     <a href={% url 'nippo-create' %}>フォームページへ</a>
     <a href={% url 'nippo-detail' 14 %}>詳細ページへ</a>
 

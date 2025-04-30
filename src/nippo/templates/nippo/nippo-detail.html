@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
-{% block title %}ラッキーナンバー{% endblock %}
+{% block title %}詳細オブジェクトです{% endblock %}
 
 {% block content %}
-    <h1>今日のラッキーナンバーは->{{ random_number }}</h1>
-    <p>あなたの入力した数字は->{{ number }}</p>
-    <p>{{ random_number }} + {{ number }} = {{ random_number|add:number }}</p>
-    <p>blocktagです</p>
-
+    <div>
+        {{ object }}
+    </div>
 {% endblock %}

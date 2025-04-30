@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}日報アプリ(削除ページ){% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>削除しても良いですか？</p>
+        <input type="submit" value="削除する">
+    </form>
+   
+{% endblock %}

@@ -1,24 +1,63 @@
-from django.shortcuts import render
-from random import randint
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import NippoModel
+from .forms import NippoFormClass
 
 def nippoListView(request):
-    return render(request, "nippo/nippo-list.html")
+    template_name = "nippo/nippo-list.html"
+    ctx = {}
+    qs = NippoModel.objects.all()
+    ctx['object_list'] = qs
+    return render(request, template_name, ctx)
 
-def nippoDetailView(request, number):
+
+def nippoDetailView(request,pk):
     template_name = "nippo/nippo-detail.html"
-    random_int = randint(1,10)
-    ctx = {
-       "random_number": random_int,
-       "number": number, 
-    }
-
+    ctx = {}
+    #q = NippoModel.objects.get(pk=pk)
+    q = get_object_or_404(NippoModel, pk=pk)
+    ctx['object'] = q
     return render(request, template_name, ctx)
 
 
 def nippoCreateView(request):
     template_name = "nippo/nippo-form.html"
+    form = NippoFormClass(request.POST or None)
+    ctx = {"form": form}
+    if form.is_valid():
+        title = form.cleaned_data["title"]
+        content = form.cleaned_data["content"]
+        obj = NippoModel(title=title, content=content)
+        obj.save()
+        if request.POST:
+            return redirect("nippo-list")
+    return render(request, template_name, ctx)
+
+
+def nippoUpdateView(request, pk):
+    template_name = "nippo/nippo-form.html"
+    #obj = NippoModel.objects.get(pk=pk)
+    obj = get_object_or_404(NippoModel, pk=pk)
+    initial_value = {"title": obj.title, "content": obj.content}
+    form = NippoFormClass(request.POST or initial_value)
+    ctx = {"form": form}
+    ctx['object'] = obj
+    if form.is_valid():
+        title = form.cleaned_data["title"]
+        content =form.cleaned_data["content"]
+        obj.title = title
+        obj.content = content
+        obj.save()
+        if request.POST:
+           return redirect("nippo-list")
+
+    return render(request, template_name, ctx)
+
+
+def nippoDeleteView(request, pk):
+    template_name = "nippo/nippo-delete.html"
+    obj = get_object_or_404(NippoModel, pk=pk)
+    ctx = {"object": obj}
     if request.POST:
-        title = request.POST.get('title')
-        content = request.POST.get('content')
-        
-    return render(request, template_name)
+        obj.delete()
+        return redirect("nippo-list")
+    return render(request, template_name, ctx)
