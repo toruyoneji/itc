@@ -165,3 +165,5 @@ ACCOUNT_LOGOUT_ON_GET = True
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+ACCOUNT_ADAPTER = "accounts.adapter.MyNippoAdapter"

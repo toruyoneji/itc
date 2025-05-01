@@ -11,29 +11,34 @@
     {% endif %}
     {% if object_list %}
         {% for obj in object_list %}
-            <div class="card my-3">
-                <div class="card-body">
-                    <h5 class="card-title">
-                      {% if obj.user == request.user %} 
-                      <span class="float-end text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{obj.pk}}">
-                          <i class="bi bi-trash-fill"></i>
-                      </span>
-                        <a href={% url 'nippo-update' obj.pk %}>
-                      {% else %}
-                        <a href={% url 'nippo-detail' obj.pk %}>
-                            {% endif %}
-                            {{ obj.title }}
-                        </a>
-                    </h5>
-                    <p class="card-text">
-                        {{ obj.content }}
-                    </p>
-                </div>
-                <div class="card-footer">
-
-                </div>
+        <div class="card my-3 mx-auto" style="max-width:700px;">
+            <div class="card-header">
+                {{ obj.timestamp|date:"Y年n年j日" }}
             </div>
-            {% include "nippo/nippo-delete.html" with object=obj %}
+            <div class="card-body">
+                <h5 class="card-title">
+                {% if obj.user == request.user %}
+                    <a href={% url 'nippo-update' obj.pk %}>
+                        {{ obj.title}}<span style="font-size:10px;">(編集)</span>
+                {% else %}
+                    <a href={% url 'nippo-detail' obj.pk %}>
+                        {{ obj.title}}
+                {% endif %}
+                    </a>
+                </h5>
+                <p class="card-text">
+                    {{ obj.content }}
+                </p>
+            </div>
+            <div class="card-footer">
+            by 
+            {% if obj.user == request.user %}
+                <span class="badge bg-primary">あなた</span>
+            {% else %}
+                <span class="badge bg-secondary">{{ obj.user.profile.username }}</span>
+            {% endif %}                 
+            </div>
+        </div>
         {% endfor %}
       {% else %}
         <div>日報が見つかりません</div>

@@ -1,8 +1,11 @@
 from django.contrib import admin
-from .models import User
+from .models import User, Profile
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from .forms import CustomAdminChangeForm
 
 class UserAdmin(BaseUserAdmin):
+    form = CustomAdminChangeForm
+
     list_display = (
         "email",
         "active",
@@ -28,6 +31,15 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Permissions', {'fields': ('staff','admin',)}),
+        ('プロフィール', {'fields': (
+            'username',
+            'department',
+            'phone_number',
+            'gender',
+            'birthday',
+        )}),
     )
 
-admin.site.register(User)
+admin.site.register(User, UserAdmin)
+
+#admin.site.register(Profile)

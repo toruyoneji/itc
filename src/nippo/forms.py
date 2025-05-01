@@ -16,8 +16,10 @@ class NippoFormModel(forms.ModelForm):
 #        #self.base_fields['title'].initial = 'basefield'
 #        #super().__init__(*args, **kwargs)
 
-    def __init__(self, user=None,*args, **kwargs):
-        for field in self.base_fields.values():
-            field.widget.attrs["class"] = "form-control"
-            self.user = user
+    def __init__(self, *args, **kwargs):
+        for key, field in self.base_fields.items():
+            if key != "public":
+                field.widget.attrs["class"] = "form-control"
+            else:
+                field.widget.attrs["class"] = "form-check-input"
         super().__init__(*args, **kwargs)
