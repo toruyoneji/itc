@@ -7,15 +7,16 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.db.models import Q
+from utils.access_restrictions import OwnerOnly
 
-class OwnerOnly(UserPassesTestMixin):
-    def test_func(self):
-        nippo_instance = self.get_object()
-        return nippo_instance.user == self.request.user
+# class OwnerOnly(UserPassesTestMixin):
+#     def test_func(self):
+#         nippo_instance = self.get_object()
+#         return nippo_instance.user == self.request.user
     
-    def handle_no_permission(self):
-        messages.error(self.request, "ご自身の日報でのみ編集・削除可能です。")
-        return redirect("nippo-detail", pk=self.kwargs["pk"])
+#     def handle_no_permission(self):
+#         messages.error(self.request, "ご自身の日報でのみ編集・削除可能です。")
+#         return redirect("nippo-detail", pk=self.kwargs["pk"])
     
 
 class NippoListView(ListView):
