@@ -1,8 +1,9 @@
+
 <nav class="navbar navbar-dark bg-primary">
     <div class="container-fluid">
       <div>
-        <a class="navbar-brand" href="#">
-            <img src="/media/pages/thank_japan.ico" height="50" >
+        <a class="navbar-brand" href={% url 'nippo-list' %}>
+          <img src="/media/pages/thank_japan.ico" width="50" />
         </a>
       </div>
       <div class="flex-grow-1" style="max-width:500px;">
@@ -12,14 +13,22 @@
         </form>
       </div>
       <div class="text-light nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            ユーザー名
+          <a class="nav-link dropdown-toggle text-light" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">アカウント設定</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">ログアウト</a></li>
+        
+          <ul class="dropdown-menu endposition" aria-labelledby="navbarDropdown">
+            {% if request.user.is_authenticated %}
+                <li><a class="dropdown-item" href="#">アカウント設定</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href={% url "account_logout" %}>ログアウト</a></li>
+            {% else %}
+                <li><a class="dropdown-item" href={% url "account_login" %}>ログイン</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href={% url "account_signup" %}>サインアップ</a></li>
+            {% endif %}
           </ul>
+        
       </div>
     </div>
   </nav>
