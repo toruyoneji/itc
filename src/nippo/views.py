@@ -8,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.db.models import Q
 from utils.access_restrictions import OwnerOnly
+from .filters import NippoModelFilter
+from accounts.models import Profile
 
 # class OwnerOnly(UserPassesTestMixin):
 #     def test_func(self):
@@ -21,21 +23,35 @@ from utils.access_restrictions import OwnerOnly
 
 class NippoListView(ListView):
     template_name = "nippo/nippo-list.html"
-    #model = NippoModel
+    model = NippoModel
+    
+    # def get_queryset(self):
+    #     q = self.request.GET.get("search")
+    #     return NippoModel.objects.search(query=q)
+
     def get_queryset(self):
-        qs = NippoModel.objects.all()
+        q = self.request.GET.get("search")
+        qs = NippoModel.objects.search(query=q)
         if self.request.user.is_authenticated:
             qs = qs.filter(Q(public=True)|Q(user=self.request.user))
         else:
             qs = qs.filter(public=True)
-
-        qs = qs.order_by("-timestamp")
         return qs
-    
-    def get_context_data(self):
-        ctx = super().get_context_data()
-        ctx["site_name"] = "itc.tokyo"
+
+        
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["filter"] = NippoModelFilter(self.request.GET, queryset=self.get_queryset())
+        profile_id = self.request.GET.get("profile")
+        q = Profile.objects.filter(id=profile_id)
+        if q.exists():
+            ctx["profile"] = q.first()
         return ctx
+    
+    # def get_context_data(self):
+    #     ctx = super().get_context_data()
+    #     ctx["site_name"] = "itc.tokyo"
+    #     return ctx
 
 # def nippoListView(request):
 #     template_name = "nippo/nippo-list.html"
@@ -62,10 +78,10 @@ class NippoCreateFormView(CreateView):
     form_class=NippoFormModel
     success_url=reverse_lazy("nippo-list")
 
-    def get_form_kwargs(self):
-        kwgs = super().get_form_kwargs()
-        kwgs["user"] = self.request.user
-        return kwgs
+    # def get_form_kwargs(self):
+    #     kwgs = super().get_form_kwargs()
+    #     kwgs["user"] = self.request.user
+    #     return kwgs
 
 # class NippoCreateFormView(FormView):
 #     template_name = "nippo/nippo-form.html"

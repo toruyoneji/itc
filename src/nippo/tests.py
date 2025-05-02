@@ -46,3 +46,7 @@ class NippoTestCase(TestCase):
     #     response = self.client.get(url)
     #     object_list = response.context_data["object_list"]
     #     self.assertEqual(len(object_list), 1)
+
+    # def test_slug_saved(self):
+    #     nippo_obj = NippoModel.objects.first()
+    #     self.assertTrue(nippo_obj.slug)

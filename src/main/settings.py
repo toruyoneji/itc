@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'allauth.account',     
     'allauth.socialaccount',
     "crispy_forms",
+    'bootstrap4',
+    'bootstrap_datepicker_plus',
+     'django_filters',
 ]
 
 AUTH_USER_MODEL='accounts.User'
@@ -73,9 +76,16 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 
             ],
+             'builtins':[ 
+                'bootstrap4.templatetags.bootstrap4',
+            ],
         },
     },
 ]
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
 
 WSGI_APPLICATION = 'main.wsgi.application'
 
